@@ -31,6 +31,22 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | undefined>(undefined)
 const STORAGE_KEY = 'sparklassignment.session'
 
+function isValidSession(value: unknown): value is LoginResponse {
+  if (!value || typeof value !== 'object') {
+    return false
+  }
+
+  const candidate = value as Record<string, unknown>
+  const user = candidate.user
+
+  if (!user || typeof user !== 'object') {
+    return false
+  }
+
+  const sessionUser = user as Record<string, unknown>
+  return typeof sessionUser.role === 'string'
+}
+
 function readSession(): LoginResponse | null {
   if (typeof window === 'undefined') {
     return null
@@ -44,15 +60,21 @@ function readSession(): LoginResponse | null {
   }
 
   try {
-    const parsed = JSON.parse(rawValue) as LoginResponse
-    window.sessionStorage.setItem(STORAGE_KEY, rawValue)
-    window.localStorage.removeItem(STORAGE_KEY)
-    return parsed
+    const parsed = JSON.parse(rawValue)
+    if (isValidSession(parsed)) {
+      window.sessionStorage.setItem(STORAGE_KEY, rawValue)
+      window.localStorage.removeItem(STORAGE_KEY)
+      return parsed
+    }
   } catch {
     window.sessionStorage.removeItem(STORAGE_KEY)
     window.localStorage.removeItem(STORAGE_KEY)
     return null
   }
+
+  window.sessionStorage.removeItem(STORAGE_KEY)
+  window.localStorage.removeItem(STORAGE_KEY)
+  return null
 }
 
 function persistSession(session: LoginResponse | null) {

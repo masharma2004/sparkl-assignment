@@ -3,7 +3,7 @@ import { useAuth } from '../auth/AuthContext'
 
 export function HomePage() {
   const { session } = useAuth()
-  const dashboardPath = session?.user.role === 'cms_admin' ? '/cms' : '/student'
+  const dashboardPath = session?.user?.role === 'cms_admin' ? '/cms' : '/student'
 
   return (
     <div className="landing-page">

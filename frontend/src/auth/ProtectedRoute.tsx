@@ -28,7 +28,7 @@ export function ProtectedRoute({ role, children }: ProtectedRouteProps) {
     )
   }
 
-  if (!session) {
+  if (!session?.user?.role) {
     return <Navigate to={loginPathForRole(role)} replace />
   }
 
@@ -50,7 +50,7 @@ export function PublicOnlyRoute({ children }: { children: ReactNode }) {
     )
   }
 
-  if (!session) {
+  if (!session?.user?.role) {
     return <>{children}</>
   }
 

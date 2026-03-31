@@ -38,15 +38,15 @@ The assignment brief does not require hosting, so this submission is documented 
 
 ## Screenshots
 
-### Home
+**Home**
 
 ![Sparkl home screen](docs/screenshots/home.png)
 
-### CMS Login
+**CMS Login**
 
 ![CMS login screen](docs/screenshots/cms-login.png)
 
-### Student Signup
+**Student Signup**
 
 ![Student signup screen](docs/screenshots/student-signup.png)
 
